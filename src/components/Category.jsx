@@ -4,7 +4,7 @@ import {Dimensions} from 'react-native';
 
 const Category = ({item, onPress}) => {
   const windowWidth = Dimensions.get('window').width;
-  const categorySize = windowWidth / 2 - 40; // Adjust size for 2 columns with padding
+  const categorySize = windowWidth / 2 - 40;
 
   return (
     <TouchableOpacity
@@ -12,7 +12,7 @@ const Category = ({item, onPress}) => {
       style={{
         width: categorySize,
         height: categorySize,
-        backgroundColor: '#1B263B', // You can change the background color
+        backgroundColor: '#1B263B',
         borderRadius: 12,
         justifyContent: 'center',
         alignItems: 'center',

@@ -1,4 +1,3 @@
-import 'react-native-gesture-handler';
 import React from 'react';
 import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -10,63 +9,60 @@ import {
 } from '@react-navigation/drawer';
 import Welcome from './screens/Welcome';
 import Home from './screens/Home';
-import History from './screens/History';
-import Politics from './screens/Politics';
-import Sports from './screens/Sports';
-import Geography from './screens/Geography';
-
 import AboutUs from './screens/AboutUs';
 import Contact from './screens/Contact';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import GaunKhaneKatha from './screens/GaunKhaneKatha';
 import {drawerElements} from './constants/drawerElements';
 import DrawerItems from './components/DrawerItems';
-import Literature from './screens/Literature';
+
+import Quiz from './screens/Quiz';
+import DeviceInfo from 'react-native-device-info';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
+const currentVersion = DeviceInfo.getVersion();
 
 // Stack Navigator
 const StackNavigator = () => {
   return (
     <Stack.Navigator
-      screenOptions={({navigation}) => ({
-        headerShown: true,
-        headerTitle: '',
-        headerStyle: {
-          backgroundColor: '#0D1B2A',
-          shadowColor: '#0D1B2A',
-          height: hp(5),
-        },
-        headerTintColor: '#FFFFFF',
-        drawerStyle: {
-          backgroundColor: '#1B263B',
-        },
-        headerLeft: () => (
-          <Pressable
-            onPress={() => navigation.toggleDrawer()}
-            style={{marginLeft: 10}}>
-            <IoniIcons name="reorder-three" size={40} color="white" />
-          </Pressable>
-        ),
-      })}>
+      screenOptions={({navigation, route}) => {
+        const {data, length} = route.params || '';
+
+        return {
+          headerShown: true,
+          headerTitle: `${data} (${length})`,
+          headerStyle: {
+            backgroundColor: '#0D1B2A',
+            shadowColor: '#0D1B2A',
+            height: hp(5),
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+          headerTintColor: '#FFFFFF',
+
+          headerTitleAlign: 'center',
+          headerLeft: () => (
+            <Pressable
+              onPress={() => navigation.toggleDrawer()}
+              style={{marginLeft: 10}}>
+              <IoniIcons name="reorder-three" size={40} color="white" />
+            </Pressable>
+          ),
+        };
+      }}>
       <Stack.Screen
         name="Welcome"
         component={Welcome}
         options={{headerShown: false}}
       />
       <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen name="History" component={History} />
-      <Stack.Screen name="Politics" component={Politics} />
-      <Stack.Screen name="Sports" component={Sports} />
-      <Stack.Screen name="Geography" component={Geography} />
-      <Stack.Screen name="Gaun Khane Katha" component={GaunKhaneKatha} />
-      <Stack.Screen name="Literature" component={Literature} />
-      <Stack.Screen name="Contact Us" component={Contact} />
-      <Stack.Screen name="About Us" component={AboutUs} />
+
+      <Stack.Screen name="Quiz" component={Quiz} />
     </Stack.Navigator>
   );
 };
@@ -74,7 +70,6 @@ const StackNavigator = () => {
 // Custom Drawer Content
 const CustomDrawerContent = props => {
   const {state, navigation} = props;
-  // console.log(navigation.getState().routes[0]);
 
   const activeRouteIndex = state?.index;
   const activeRouteName = state?.routeNames[activeRouteIndex];
@@ -108,9 +103,22 @@ const CustomDrawerContent = props => {
         </View>
       ))}
 
-      {/* Additional Custom Content */}
-      <View style={styles.customContent}>
-        <Text style={styles.customContentText}>Please give us Feedback!!!</Text>
+      <View
+        style={{
+          padding: 20,
+        }}>
+        <Text style={{fontSize: hp(2), color: 'white', textAlign: 'center'}}>
+          Version {currentVersion}
+        </Text>
+        <Text
+          style={{
+            fontSize: hp(2),
+            color: 'white',
+            textAlign: 'center',
+            marginTop: 5,
+          }}>
+          © 2024 Nepal-e-Quiz
+        </Text>
       </View>
     </DrawerContentScrollView>
   );
@@ -121,10 +129,50 @@ const App = () => {
     <NavigationContainer>
       <Drawer.Navigator
         drawerContent={props => <CustomDrawerContent {...props} />}
-        screenOptions={{
-          headerShown: false,
+        screenOptions={({navigation, route}) => {
+          return {
+            headerShown: false,
+            headerStyle: {
+              backgroundColor: '#0D1B2A',
+              shadowColor: '#0D1B2A',
+              height: hp(5),
+            },
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerTintColor: '#FFFFFF',
+            drawerStyle: {
+              backgroundColor: '#1B263B',
+            },
+            headerTitleAlign: 'center',
+            headerLeft: () => (
+              <Pressable
+                onPress={() => navigation.toggleDrawer()}
+                style={{marginLeft: 10}}>
+                <IoniIcons name="reorder-three" size={40} color="white" />
+              </Pressable>
+            ),
+          };
         }}>
         <Drawer.Screen name="Home Screen" component={StackNavigator} />
+        <Drawer.Screen
+          name="Contact"
+          component={Contact}
+          options={{
+            headerTitle: 'Contact Us',
+            headerTitleAlign: 'center',
+            headerShown: true,
+          }}
+        />
+        <Drawer.Screen
+          name="About"
+          component={AboutUs}
+          options={{
+            headerTitle: 'About Us',
+            headerTitleAlign: 'center',
+            headerShown: true,
+          }}
+        />
       </Drawer.Navigator>
     </NavigationContainer>
   );

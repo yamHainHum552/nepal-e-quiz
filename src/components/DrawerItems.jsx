@@ -2,18 +2,16 @@ import {TouchableOpacity, Text, View, StyleSheet} from 'react-native';
 import React from 'react';
 
 const DrawerItems = ({icon, label, onPress, routeName, activeRouteName}) => {
-  const isActive = activeRouteName === routeName; // Check if the route is active
-
+  const isActive = activeRouteName === routeName;
   return (
     <TouchableOpacity onPress={onPress} style={styles.drawerItemContainer}>
-      {/* Icon Container */}
       <View
         style={[styles.iconContainer, isActive && styles.activeIconContainer]}>
         {React.cloneElement(icon, {
           color: isActive ? '#76D7C4' : '#FFFFFF',
         })}
       </View>
-      {/* Label */}
+
       <Text
         style={[
           styles.drawerItemLabel,

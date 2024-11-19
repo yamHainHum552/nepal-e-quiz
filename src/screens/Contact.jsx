@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import Snackbar from 'react-native-snackbar';
 import Loading from '../components/Loading';
-import {send, EmailJSResponseStatus} from '@emailjs/react-native';
+import {send} from '@emailjs/react-native';
 
 const Contact = ({route}) => {
   const [name, setName] = useState('');
@@ -21,9 +21,10 @@ const Contact = ({route}) => {
   const publicKey = '6R4xwyDtyNA0O9AA1';
 
   const {text} = route.params || '';
+
   useEffect(() => {
     setMessage(text);
-  }, []);
+  }, [text]);
 
   const checkEmail = email => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -79,7 +80,6 @@ const Contact = ({route}) => {
         showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.headerTitle}>Contact Us</Text>
           <Text style={styles.headerSubtitle}>
             We would love to hear from you! Please fill out the form below or
             contact us directly.
@@ -88,7 +88,7 @@ const Contact = ({route}) => {
 
         {/* Contact Information */}
         <View style={styles.contactInfo}>
-          <Text style={styles.infoText}>Email: yamaterc30@gmail.com</Text>
+          <Text style={styles.infoText}>Email: yamguragain30@gmail.com</Text>
           <Text style={styles.infoText}>Address: Morang, Nepal</Text>
         </View>
 

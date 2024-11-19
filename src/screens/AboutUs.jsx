@@ -1,19 +1,24 @@
 import React from 'react';
 import {View, Text, StyleSheet, ScrollView, Image} from 'react-native';
 import ScreenWrapper from '../components/ScreenWrapper';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
 
 const AboutUs = () => {
   return (
     <ScreenWrapper bg="#0D1B2A">
       <ScrollView style={styles.container}>
-        {/* App Logo/Title */}
         <View style={styles.header}>
-          {/* Add your app logo here */}
+          <Image
+            source={require('../assets/images/flag.png')}
+            style={{height: hp(8), width: wp(8)}}
+          />
 
           <Text style={styles.title}>Nepal-e-Quiz</Text>
         </View>
 
-        {/* App Description */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>About the App</Text>
           <Text style={styles.sectionContent}>
@@ -28,13 +33,12 @@ const AboutUs = () => {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Key Features</Text>
           <Text style={styles.sectionContent}>
-            - Multiple quiz categories: History, Sports, Science, and more{'\n'}
-            - Engaging and challenging questions{'\n'}- Interactive UI and easy
-            navigation{'\n'}- Regular updates with new content{'\n'}
+            - Multiple quiz categories: History, Sports, Literature, and more
+            {'\n'}- Engaging and challenging questions{'\n'}- Interactive UI and
+            easy navigation{'\n'}- Regular updates with new content{'\n'}
           </Text>
         </View>
 
-        {/* Team Information */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Our Team</Text>
           <Text style={styles.sectionContent}>
@@ -44,13 +48,11 @@ const AboutUs = () => {
           </Text>
         </View>
 
-        {/* Contact Information */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Contact Us</Text>
           <Text style={styles.sectionContent}>
             Have feedback or suggestions? Reach out to us at:{'\n'}
-            Email: yamaterc30@gmail.com
-            {/* Phone: +977-9811092556 */}
+            Email: yamguragain30@gmail.com
           </Text>
         </View>
       </ScrollView>
@@ -58,7 +60,6 @@ const AboutUs = () => {
   );
 };
 
-// Styles for the About Us screen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -86,7 +87,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#76D7C4', // Accent color for section titles
+    color: '#76D7C4',
     marginBottom: 5,
   },
   sectionContent: {

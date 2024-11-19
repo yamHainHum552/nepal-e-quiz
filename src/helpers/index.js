@@ -10,3 +10,9 @@ export const shuffle = array => {
   }
   return shuffledArray;
 };
+
+export const generateTitle = title => {
+  const newTitle = title.split(' ')[0].toLowerCase();
+
+  return newTitle;
+};

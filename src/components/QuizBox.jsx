@@ -5,8 +5,7 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import Loading from './Loading';
-import {shuffle} from '../helpers/DataManipulation';
-import Snackbar from 'react-native-snackbar';
+import {shuffle} from '../helpers/index';
 import {useNavigation} from '@react-navigation/native';
 
 const Alphabets = ['A', 'B', 'C', 'D'];
@@ -32,6 +31,13 @@ const QuizBox = ({item, setSelectedAnswer, index}) => {
       ...prevColors,
       [option]: option === item.answer ? 'green' : 'red',
     }));
+  };
+
+  const handleViewAnswer = () => {
+    setSelectedOption(item.answer);
+    setOptionColors({
+      [item.answer]: 'green',
+    });
   };
 
   return (
@@ -95,23 +101,15 @@ const QuizBox = ({item, setSelectedAnswer, index}) => {
             display: 'flex',
             backgroundColor: '#E63946',
             justifyContent: 'center',
-
             borderRadius: 8,
             alignItems: 'center',
           }}
-          onPress={() =>
-            Snackbar.show({
-              text: 'The correct answer is: ' + item.answer,
-              backgroundColor: 'green',
-              duration: Snackbar.LENGTH_SHORT,
-              textColor: 'white',
-            })
-          }>
+          onPress={handleViewAnswer}>
           <Text className="font-semibold text-white text-lg">View Answer</Text>
         </Pressable>
         <Pressable
           onPress={() =>
-            navigation.navigate('Contact Us', {
+            navigation.navigate('Contact', {
               text: `I feel doubt on question ${item.question}.   `,
             })
           }>

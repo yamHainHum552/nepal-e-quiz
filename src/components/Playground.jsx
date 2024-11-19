@@ -1,13 +1,13 @@
-import {View, Text, Dimensions} from 'react-native';
+import {View, Text, Dimensions, ActivityIndicator} from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
 import ScreenWrapper from '../components/ScreenWrapper';
 import QuizBox from '../components/QuizBox';
 import {FlashList} from '@shopify/flash-list';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import {shuffle} from '../helpers/DataManipulation';
+import {shuffle} from '../helpers/index';
 import ScrollToTop from './ScrollToTop';
 
-const Playground = ({payload, category}) => {
+const Playground = ({payload, category, isLoading}) => {
   const [selectedAnswer, setSelectedAnswer] = useState('');
   const [shuffledData, setShuffledData] = useState([]);
   const [yOffset, setYOffset] = useState(0);
@@ -28,44 +28,39 @@ const Playground = ({payload, category}) => {
 
   return (
     <ScreenWrapper bg="#0D1B2A">
-      <View
-        style={{
-          height: Dimensions.get('screen').height,
-          width: Dimensions.get('screen').width,
-        }}>
-        {/* FlashList to render the quiz items */}
-        <FlashList
-          ref={scrollRef}
-          data={shuffledData}
-          contentContainerStyle={{
-            paddingBottom: hp(15),
-          }}
-          keyExtractor={(item, index) =>
-            item?.id?.toString() || index.toString()
-          } // Fallback to index
-          showsVerticalScrollIndicator={false}
-          estimatedItemSize={100}
-          onScroll={hanldeScroll} // Track scroll event here
-          scrollEventThrottle={16} // Throttle for better performance
-          ListHeaderComponent={
-            <View className="flex items-center flex-row justify-center gap-5">
-              <Text className="font-bold text-xl text-white">
-                {category.toUpperCase()}
-              </Text>
-              <Text className="font-semibold text-xl text-white">
-                {payload.length} Questions
-              </Text>
-            </View>
-          }
-          renderItem={({item, index}) => (
-            <QuizBox
-              item={item}
-              index={index}
-              setSelectedAnswer={setSelectedAnswer}
-            />
-          )}
-        />
-      </View>
+      {isLoading ? (
+        <ActivityIndicator size={40} style={{alignContent: 'center'}} />
+      ) : (
+        <View
+          style={{
+            height: Dimensions.get('screen').height,
+            width: Dimensions.get('screen').width,
+          }}>
+          {/* FlashList to render the quiz items */}
+          <FlashList
+            ref={scrollRef}
+            data={shuffledData}
+            contentContainerStyle={{
+              paddingBottom: hp(15),
+            }}
+            keyExtractor={(item, index) =>
+              item?.id?.toString() || index.toString()
+            }
+            showsVerticalScrollIndicator={false}
+            estimatedItemSize={100}
+            onScroll={hanldeScroll}
+            scrollEventThrottle={16}
+            renderItem={({item, index}) => (
+              <QuizBox
+                item={item}
+                index={index}
+                setSelectedAnswer={setSelectedAnswer}
+              />
+            )}
+          />
+        </View>
+      )}
+
       {iconVisible && <ScrollToTop scrollRef={scrollRef} />}
     </ScreenWrapper>
   );

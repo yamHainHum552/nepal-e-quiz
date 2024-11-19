@@ -1,9 +1,12 @@
-import Sports from '../assets/icons/Sports';
-import IoniIcons from 'react-native-vector-icons/Ionicons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Politics from 'react-native-vector-icons/FontAwesome5';
-import Flag from 'react-native-vector-icons/FontAwesome6';
+import {
+  IoniIcons,
+  FontAwesome,
+  AntDesign,
+  FontAwesome6,
+  FontAwesome5,
+  MaterialIcons,
+  Entypo,
+} from '../assets/icons/index';
 
 export const categories = [
   {
@@ -13,7 +16,7 @@ export const categories = [
   },
   {
     id: 2,
-    icon: <Flag name="house-flag" size={40} color="white" />,
+    icon: <FontAwesome6 name="house-flag" size={40} color="white" />,
     category: 'Politics',
   },
   {
@@ -28,12 +31,22 @@ export const categories = [
   },
   {
     id: 5,
-    icon: <Sports />,
+    icon: <MaterialIcons name="sports-soccer" size={40} color="white" />,
     category: 'Sports',
   },
   {
     id: 5,
-    icon: <Politics name="book-open" size={40} color="white" />,
+    icon: <FontAwesome5 name="book-open" size={40} color="white" />,
     category: 'Literature',
+  },
+  {
+    id: 6,
+    icon: <AntDesign name="team" size={40} color="white" />,
+    category: 'Religion and Culture',
+  },
+  {
+    id: 7,
+    icon: <Entypo name="lab-flask" size={40} color="white" />,
+    category: 'Science and Technology',
   },
 ];

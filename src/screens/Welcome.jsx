@@ -1,17 +1,19 @@
-import {Image, StatusBar, StyleSheet, Text, View} from 'react-native';
+import {Image, StatusBar, View} from 'react-native';
 
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import ScreenWrapper from '../components/ScreenWrapper';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import Animated, {useSharedValue, withSpring} from 'react-native-reanimated';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Welcome = ({navigation}) => {
   const ring1Padding = useSharedValue(0);
   const ring2Padding = useSharedValue(0);
   const opacity = useSharedValue(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     ring1Padding.value = 0;
@@ -27,8 +29,46 @@ const Welcome = ({navigation}) => {
       100,
     );
     setTimeout(() => (opacity.value = withSpring(opacity.value + 1)), 100);
-    setTimeout(() => navigation.replace('Home'), 1500);
+    setTimeout(() => navigation.replace('Home'), 2000);
   }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+
+        const categories = [
+          'sports',
+          'geography',
+          'literature',
+          'history',
+          'politics',
+          'gaun',
+          'science',
+          'religion',
+        ];
+        for (const category of categories) {
+          let response = await fetch(
+            `${process.env.PUBLIC_SERVER}/api/${category}/getData`,
+          );
+
+          if (!response.ok) {
+            console.log(`Error fetching data for ${category}`);
+            continue;
+          }
+
+          const data = await response.json();
+
+          await AsyncStorage.setItem(`${category}Data`, JSON.stringify(data));
+        }
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error.message);
+        setIsLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <ScreenWrapper bg="#0D1B2A">
       <StatusBar barStyle={'light-content'} />
