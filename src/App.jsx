@@ -1,5 +1,12 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Pressable,
+  TouchableOpacity,
+} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
 import IoniIcons from 'react-native-vector-icons/Ionicons';
@@ -60,9 +67,28 @@ const StackNavigator = () => {
         component={Welcome}
         options={{headerShown: false}}
       />
-      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen
+        name="Home"
+        component={Home}
+        options={{headerShown: true}}
+      />
 
-      <Stack.Screen name="Quiz" component={Quiz} />
+      <Stack.Screen
+        name="Quiz"
+        component={Quiz}
+        options={({navigation}) => {
+          return {
+            headerShown: true,
+            headerLeft: () => (
+              <TouchableOpacity
+                onPress={() => navigation.goBack()}
+                style={styles.backButton}>
+                <IoniIcons name="arrow-back" size={30} color="white" />
+              </TouchableOpacity>
+            ),
+          };
+        }}
+      />
     </Stack.Navigator>
   );
 };
@@ -129,31 +155,7 @@ const App = () => {
     <NavigationContainer>
       <Drawer.Navigator
         drawerContent={props => <CustomDrawerContent {...props} />}
-        screenOptions={({navigation, route}) => {
-          return {
-            headerShown: false,
-            headerStyle: {
-              backgroundColor: '#0D1B2A',
-              shadowColor: '#0D1B2A',
-              height: hp(5),
-            },
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-            headerTintColor: '#FFFFFF',
-            drawerStyle: {
-              backgroundColor: '#1B263B',
-            },
-            headerTitleAlign: 'center',
-            headerLeft: () => (
-              <Pressable
-                onPress={() => navigation.toggleDrawer()}
-                style={{marginLeft: 10}}>
-                <IoniIcons name="reorder-three" size={40} color="white" />
-              </Pressable>
-            ),
-          };
-        }}>
+        screenOptions={{headerShown: false}}>
         <Drawer.Screen name="Home Screen" component={StackNavigator} />
         <Drawer.Screen
           name="Contact"
@@ -161,16 +163,15 @@ const App = () => {
           options={{
             headerTitle: 'Contact Us',
             headerTitleAlign: 'center',
-            headerShown: true,
           }}
         />
+
         <Drawer.Screen
           name="About"
           component={AboutUs}
           options={{
             headerTitle: 'About Us',
             headerTitleAlign: 'center',
-            headerShown: true,
           }}
         />
       </Drawer.Navigator>
@@ -188,6 +189,8 @@ const styles = StyleSheet.create({
   drawerHeader: {
     display: 'flex',
     justifyContent: 'center',
+    borderRadius: 10,
+    marginTop: hp(2),
     flexDirection: 'row',
     padding: 20,
     backgroundColor: '#0D1B2A',

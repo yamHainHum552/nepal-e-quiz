@@ -1,14 +1,13 @@
 import React, {useState, useEffect} from 'react';
+import {TouchableOpacity, Text, StyleSheet} from 'react-native';
 import Playground from '../components/Playground';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Snackbar from 'react-native-snackbar';
 import {generateTitle} from '../helpers';
 
-const Quiz = ({route}) => {
+const Quiz = ({route, navigation}) => {
   const {params} = route;
-
   const [isLoading, setIsLoading] = useState(false);
-
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -20,7 +19,7 @@ const Quiz = ({route}) => {
         );
         if (!storedData) {
           Snackbar.show({
-            text: 'Turn on you wifi and try reopening the app',
+            text: 'Turn on your WiFi and try reopening the app',
             backgroundColor: 'orange',
             textColor: 'white',
           });

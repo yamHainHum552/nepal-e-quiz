@@ -6,12 +6,14 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  Pressable,
 } from 'react-native';
 import Snackbar from 'react-native-snackbar';
 import Loading from '../components/Loading';
 import {send} from '@emailjs/react-native';
+import IoniIcons from 'react-native-vector-icons/Ionicons';
 
-const Contact = ({route}) => {
+const Contact = ({route, navigation}) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
@@ -25,6 +27,31 @@ const Contact = ({route}) => {
   useEffect(() => {
     setMessage(text);
   }, [text]);
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      headerStyle: {
+        backgroundColor: '#0D1B2A',
+        shadowColor: '#0D1B2A',
+      },
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+      headerTintColor: '#FFFFFF',
+      drawerStyle: {
+        backgroundColor: '#1B263B',
+      },
+      headerTitleAlign: 'center',
+      headerLeft: () => (
+        <Pressable
+          onPress={() => navigation.toggleDrawer()}
+          style={{marginLeft: 10}}>
+          <IoniIcons name="reorder-three" size={40} color="white" />
+        </Pressable>
+      ),
+    });
+  }, []);
 
   const checkEmail = email => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

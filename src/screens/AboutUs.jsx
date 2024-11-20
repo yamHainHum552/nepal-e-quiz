@@ -1,12 +1,44 @@
-import React from 'react';
-import {View, Text, StyleSheet, ScrollView, Image} from 'react-native';
+import React, {useEffect} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Image,
+  Pressable,
+} from 'react-native';
 import ScreenWrapper from '../components/ScreenWrapper';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
+import IoniIcons from 'react-native-vector-icons/Ionicons';
 
-const AboutUs = () => {
+const AboutUs = ({navigation}) => {
+  useEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      headerStyle: {
+        backgroundColor: '#0D1B2A',
+        shadowColor: '#0D1B2A',
+      },
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+      headerTintColor: '#FFFFFF',
+      drawerStyle: {
+        backgroundColor: '#1B263B',
+      },
+      headerTitleAlign: 'center',
+      headerLeft: () => (
+        <Pressable
+          onPress={() => navigation.toggleDrawer()}
+          style={{marginLeft: 10}}>
+          <IoniIcons name="reorder-three" size={40} color="white" />
+        </Pressable>
+      ),
+    });
+  }, []);
   return (
     <ScreenWrapper bg="#0D1B2A">
       <ScrollView style={styles.container}>

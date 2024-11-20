@@ -45,7 +45,7 @@ export const drawerElements = navigation => [
   {
     id: 1,
     label: 'Home',
-    onPress: () => navigation.navigate('Home Screen'),
+    onPress: () => navigation.navigate('Home Screen', {screen: 'Home'}),
     icon: <Entypo name="home" size={30} color="white" />,
     routeName: 'Home Screen',
   },
